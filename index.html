@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>천억부자 타이머 - 파이널 프리미엄</title>
+    <title>Billionaire Timer DODOLIST</title>
     <style>
         /* 프리미엄 화이트/블랙/골드 테마 */
         * {
@@ -11,6 +11,47 @@
             padding: 0;
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Confetti animation */
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #d4af37;
+            animation: confetti-fall 3s linear infinite;
+        }
+
+        .confetti-piece:nth-child(2n) { background: #f39c12; }
+        .confetti-piece:nth-child(3n) { background: #e74c3c; }
+        .confetti-piece:nth-child(4n) { background: #3498db; }
+        .confetti-piece:nth-child(5n) { background: #2ecc71; }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeOut {
+            0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            80% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
         }
 
         body {
@@ -21,6 +62,98 @@
             height: 100vh;
             overflow: hidden;
             position: relative;
+        }
+
+        body.theme-dark {
+            background: linear-gradient(135deg, #121212 0%, #1f1f1f 50%, #121212 100%);
+            color: #f1f3f5;
+        }
+
+        body.theme-dark .header {
+            background: linear-gradient(135deg, #1f1f1f 0%, #181818 100%);
+            border-bottom-color: #444444;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.6);
+        }
+
+        body.theme-dark .header::before {
+            background: linear-gradient(90deg, #f1c40f, #f39c12, #f1c40f);
+        }
+
+        body.theme-dark .header-pill {
+            background: rgba(255,255,255,0.06);
+            border-color: #3a3a3a;
+            color: #f1f3f5;
+        }
+
+        body.theme-dark .language-toggle {
+            background: #1f1f1f;
+            border-color: #3a3a3a;
+        }
+
+        body.theme-dark .lang-btn {
+            color: #e9ecef;
+        }
+
+        body.theme-dark .theme-toggle,
+        body.theme-dark .book-btn {
+            background: #1f1f1f;
+            border-color: #3a3a3a;
+            color: #f8f9fa;
+        }
+
+        body.theme-dark .goal-input-section,
+        body.theme-dark .conversion-card,
+        body.theme-dark .daily-focus-card,
+        body.theme-dark .profit-loss-stats,
+        body.theme-dark .stat-item,
+        body.theme-dark .simple-achievements,
+        body.theme-dark .daily-mission,
+        body.theme-dark .input-form,
+        body.theme-dark .item-card,
+        body.theme-dark .timer-container,
+        body.theme-dark .logic-explanation,
+        body.theme-dark .motivation-banner,
+        body.theme-dark .money-display,
+        body.theme-dark .settings-panel,
+        body.theme-dark .report-modal,
+        body.theme-dark .book-modal,
+        body.theme-dark .book-card,
+        body.theme-dark .daily-motivation,
+        body.theme-dark .info-card,
+        body.theme-dark .money-loss,
+        body.theme-dark .money-earning,
+        body.theme-dark .time-selector,
+        body.theme-dark .time-chips .option-btn,
+        body.theme-dark .repeat-selector .option-btn,
+        body.theme-dark .conversion-display,
+        body.theme-dark .nav-item,
+        body.theme-dark .logic-content {
+            background: rgba(24, 24, 24, 0.95);
+            color: #f1f3f5;
+            border-color: #333333;
+        }
+
+        body.theme-dark .nav-item.active {
+            background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+            color: #ffffff;
+        }
+
+        body.theme-dark .book-cta {
+            background: linear-gradient(135deg, #f39c12 0%, #d35400 100%);
+        }
+
+        body.theme-dark .book-extra-link {
+            color: #ced4da;
+        }
+
+        body.theme-dark .report-modal,
+        body.theme-dark .settings-panel,
+        body.theme-dark .book-modal {
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+        }
+
+        body.theme-dark .toggle-switch {
+            background: rgba(0,0,0,0.4);
         }
 
         /* 크롬 확장 팝업 전용 사이즈 고정 (초기 폭/높이 왜곡 방지) */
@@ -38,6 +171,56 @@
             flex-direction: column;
             position: relative;
         }
+
+        .confetti-container {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 3000;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 8px;
+            height: 14px;
+            border-radius: 2px;
+            opacity: 0;
+            animation: confetti-fall 1.2s ease-out forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% { transform: translateY(-20vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(80vh) rotate(360deg); opacity: 0; }
+        }
+
+        .empty-placeholder {
+            padding: 24px 18px;
+            text-align: center;
+            color: #868e96;
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px dashed #dee2e6;
+            border-radius: 12px;
+            background: #f8f9fa;
+        }
+
+        .list-item.completed .item-title {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .item-check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .item-check input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+
 
         /* 단색 SVG 아이콘 시스템 */
         .icon {
@@ -135,6 +318,94 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(212,175,55,0.4);
         }
+
+        /* Book shortcut button */
+        .book-shortcut {
+            position: absolute;
+            top: 72px;
+            right: 24px;
+            border-radius: 12px;
+            background: #ffffff;
+            padding: 6px 12px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            z-index: 150;
+            border: 1px solid #e5e5e5;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .book-shortcut:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            transform: translateY(-1px);
+        }
+
+        .book-shortcut-label {
+            color: #333333;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .language-toggle {
+            display: inline-flex;
+            border: 1px solid #e9ecef;
+            border-radius: 999px;
+            overflow: hidden;
+            background: #ffffff;
+        }
+
+        .lang-btn {
+            padding: 6px 10px;
+            font-size: 12px;
+            font-weight: 700;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            color: #666666;
+            transition: all 0.2s ease;
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+            color: #ffffff;
+        }
+
+        .theme-toggle, .book-btn {
+            width: 36px;
+            height: 36px;
+            border: 1px solid #e9ecef;
+            background: #ffffff;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #333333;
+        }
+
+        .theme-toggle:hover, .book-btn:hover {
+            box-shadow: 0 4px 12px rgba(212,175,55,0.2);
+            transform: translateY(-1px);
+        }
+
+        .theme-toggle svg, .book-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .theme-toggle[data-theme='light'] .theme-icon-moon { display: none; }
+        .theme-toggle[data-theme='light'] .theme-icon-sun { display: block; }
+        .theme-toggle[data-theme='dark'] .theme-icon-sun { display: none; }
+        .theme-toggle[data-theme='dark'] .theme-icon-moon { display: block; }
 
         .subad-badge { position: static; background: none; color: #d4af37; font-weight: 800; padding: 0; border-radius: 0; font-size: 12px; text-decoration: none; }
         .subad-badge:hover { text-decoration: underline; }
@@ -768,6 +1039,31 @@
 
         .item-content {
             flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .completion-checkbox {
+            width: 18px;
+            height: 18px;
+            margin: 0;
+            cursor: pointer;
+            accent-color: #d4af37;
+        }
+
+        .item-text {
+            flex: 1;
+        }
+
+        .item-text.completed .item-title {
+            text-decoration: line-through;
+            opacity: 0.6;
+            color: #888;
+        }
+
+        .item-text.completed .item-meta {
+            opacity: 0.5;
         }
 
         .item-title {
@@ -1087,6 +1383,11 @@
 
         /* 반응형 */
         @media (max-width: 768px) {
+            .book-shortcut {
+                top: 68px;
+                right: 12px;
+            }
+            
             .timer-info-cards {
                 display: flex;
             }
@@ -1224,6 +1525,11 @@
 
         .setting-info {
             flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            white-space: normal;
+            line-height: 1.4;
         }
 
         .setting-label {
@@ -1236,6 +1542,51 @@
         .setting-desc {
             font-size: 12px;
             color: #666666;
+        }
+
+        .setting-select {
+            width: 140px;
+            padding: 8px 12px;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            background: #ffffff;
+            font-size: 12px;
+            color: #333333;
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+        }
+
+        .setting-select:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+        }
+
+        .powered-by {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e5e5;
+            text-align: center;
+            font-size: 12px;
+            color: #999999;
+            font-weight: 500;
+        }
+
+        .powered-by a {
+            color: #d4af37;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .powered-by a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .setting-select {
+                width: 100%;
+                margin-top: 8px;
+            }
         }
 
         .toggle-switch {
@@ -1535,7 +1886,8 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
-    </style>
+    
+        </style>
         <!-- 확장 팝업에서는 inline 스크립트가 차단될 수 있어 제거 -->
 
 <style>
@@ -1543,7 +1895,157 @@ body{display:flex;justify-content:center;background:linear-gradient(#ffffff,#f8f
 .app-container,.container,main{max-width:600px;width:100%;margin:0 auto}
 .header,header,.bottom-nav,footer{max-width:600px;margin:0 auto}
 @media (max-width:420px){.header,header,.container,.content,main{padding-left:12px !important;padding-right:12px !important}}
-</style>
+
+        /* Book recommendation modal */
+        .book-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2200;
+        }
+
+        .book-overlay.active {
+            display: flex;
+        }
+
+        .book-modal {
+            width: 94%;
+            max-width: 440px;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 28px 24px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.18);
+            border: 2px solid #d4af37;
+            max-height: 86vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .book-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .book-title-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .book-title-group h3 {
+            font-size: 18px;
+            font-weight: 800;
+            color: #000000;
+        }
+
+        .book-subtitle {
+            font-size: 13px;
+            color: #666666;
+            margin-bottom: 6px;
+            line-height: 1.5;
+            font-weight: 600;
+        }
+
+        .book-disclaimer {
+            font-size: 11px;
+            color: #999999;
+            margin-bottom: 18px;
+        }
+
+        .book-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .book-tab {
+            flex: 1;
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+            background: #f8f9fa;
+            font-size: 12px;
+            font-weight: 700;
+            color: #555555;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .book-tab.active {
+            background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+            color: #ffffff;
+            border-color: transparent;
+        }
+
+        .book-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .book-card {
+            border: 1px solid #e9ecef;
+            border-radius: 16px;
+            padding: 16px;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .book-card h4 {
+            font-size: 16px;
+            font-weight: 800;
+            color: #000000;
+        }
+
+        .book-author {
+            font-size: 12px;
+            font-weight: 600;
+            color: #666666;
+        }
+
+        .book-description {
+            font-size: 13px;
+            color: #444444;
+            line-height: 1.5;
+        }
+
+        .book-cta {
+            align-self: flex-start;
+            background: linear-gradient(135deg, #ff7a18 0%, #ffb347 100%);
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 10px 18px;
+            border-radius: 12px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 6px 18px rgba(255,146,62,0.35);
+            transition: transform 0.2s ease;
+        }
+
+        .book-cta:hover {
+            transform: translateY(-2px);
+        }
+
+        .book-extra-link {
+            display: block;
+            margin-top: 18px;
+            font-size: 11px;
+            color: #777777;
+            text-align: center;
+            text-decoration: underline;
+        }
+
+    </style>
 
 </head>
 <body>
@@ -1551,19 +2053,30 @@ body{display:flex;justify-content:center;background:linear-gradient(#ffffff,#f8f
         <!-- 헤더 -->
         <div class="header">
             <div class="header-left">
-                <h1>천억부자 타이머</h1>
-                <a href="https://subad.kr?utm_source=billionaire_timer&placement=header" target="_blank" class="subad-badge">subad.kr</a>
+                <h1 id="header-title" data-i18n-key="header.title">천억부자 타이머</h1>
             </div>
             <div class="header-center">
                 <div class="header-status">
-                    <span class="header-pill gold" id="header-net">순익 ₩0</span>
+                    <span class="header-pill gold" id="header-net">총익 ₩0</span>
                     <span class="header-pill" id="header-streak">연속 0일</span>
                 </div>
             </div>
-            <button class="menu-btn" id="menu-btn">
-                <span class="icon icon-menu"></span>
-            </button>
+            <div class="header-right">
+                <div class="language-toggle" role="group" aria-label="언어 선택">
+                    <button class="lang-btn active" data-lang="ko" aria-label="한국어">KR</button>
+                    <button class="lang-btn" data-lang="en" aria-label="English">US</button>
+                </div>
+                <button class="menu-btn" id="menu-btn">
+                    <span class="icon icon-menu"></span>
+                </button>
+            </div>
         </div>
+
+        <!-- Book shortcut button -->
+        <button class="book-shortcut" id="book-shortcut">
+            <span class="icon icon-bulb"></span>
+            <span class="book-shortcut-label">부자책</span>
+        </button>
 
         <!-- 메인 콘텐츠 -->
         <div class="main-content">
@@ -1576,20 +2089,20 @@ body{display:flex;justify-content:center;background:linear-gradient(#ffffff,#f8f
                             <span class="icon">←</span>
                             뒤로
                         </button>
-                        <h2 class="setup-title">목표 설정</h2>
+                        <h2 class="setup-title" data-i18n-key="goal.setupTitle">목표 설정</h2>
                     </div>
-                    <p class="setup-subtitle">성공을 위한 첫 걸음,<br>당신의 시급 목표를 설정하세요</p>
+                    <p class="setup-subtitle" data-i18n-key="goal.setupSubtitle" data-i18n-mode="html">손실회피 동기부여로 실행력극대화<br> 시급 목표를 설정하세요</p>
                     
                     <div class="goal-input-section">
                         <div class="input-group">
-                            <label>현재 시급</label>
+                            <label data-i18n-key="goal.currentLabel">현재 시급</label>
                             <div class="currency-symbol">
                                 <input type="number" id="current-hourly-input" placeholder="15000" min="0">
                             </div>
                         </div>
                         
                         <div class="input-group">
-                            <label>목표 시급</label>
+                            <label data-i18n-key="goal.targetLabel">목표 시급</label>
                             <div class="currency-symbol">
                                 <input type="number" id="target-hourly-input" placeholder="100000" min="0">
                             </div>
@@ -1619,18 +2132,18 @@ body{display:flex;justify-content:center;background:linear-gradient(#ffffff,#f8f
                                 </div>
                             </div>
                             <div class="daily-focus-card">
-                                <div class="daily-focus-title">하루 목표 집중 시간</div>
+                                <div class="daily-focus-title" data-i18n-key="goal.dailyFocusTitle">하루 목표 집중 시간</div>
                                 <div class="daily-focus-time" id="daily-focus-time">0분</div>
-                                <div class="daily-focus-subtitle">목표 달성을 위한 최소 시간 (집중효율 70%)</div>
+                                <div class="daily-focus-subtitle" data-i18n-key="goal.dailyFocusSubtitle">목표 달성을 위한 최소 시간 (집중효율 70%)</div>
                             </div>
                         </div>
                         
-                        <button class="gold-button" id="start-journey">천억 여정 시작하기</button>
+                        <button class="gold-button" id="start-journey" data-i18n-key="goal.startJourney">천억 여정 시작하기</button>
                         
                         <!-- 첫 목표 설정용 CTA -->
                         <div class="motivation-banner" style="display: block; margin-top: 20px;">
-                            <div class="banner-title">🚀 목표 달성 후 더 큰 성공을 원한다면?</div>
-                            <div class="banner-subtitle">이미 1,148만원 추가 매출을 달성한<br>검증된 수익화 노하우를 확인해보세요</div>
+                            <div class="banner-title" data-i18n-key="banner.title">🚀 목표 달성 후 더 큰 성공을 원한다면?</div>
+                            <div class="banner-subtitle" data-i18n-key="banner.subtitle" data-i18n-mode="html">이미 1,148만원 추가 매출을 달성한<br>검증된 수익화 노하우를 확인해보세요</div>
                             <a href="https://class.subad.kr?utm_source=billionaire_timer&course=1148man&placement=goal_setup" target="_blank" class="banner-cta">
                                 💰 수익화 비법 확인하기
                             </a>
@@ -1744,7 +2257,7 @@ body{display:flex;justify-content:center;background:linear-gradient(#ffffff,#f8f
                     <div class="motivation-banner" id="goal-motivation-banner">
                         <div class="banner-title">🚀 추가 매출 1,148만원 달성 비법</div>
                         <div class="banner-subtitle">천억부자들의 실제 성장 전략과<br>검증된 수익화 노하우를 배워보세요</div>
-                        <a href="https://class.subad.kr?utm_source=billionaire_timer&course=1148man" target="_blank" class="banner-cta">
+                        <a href="https://class.subad.kr?utm_source=billionaire_timer&course=1148man" target="_blank" class="banner-cta" data-i18n-key="banner.cta">
                             수익화 강의 보기
                         </a>
                     </div>
@@ -1972,7 +2485,7 @@ body{display:flex;justify-content:center;background:linear-gradient(#ffffff,#f8f
         <div class="bottom-nav">
             <div class="nav-item active" data-tab="goals-tab">
                 <span class="nav-icon icon icon-target"></span>
-                <span class="nav-label">목표</span>
+                <span class="nav-label" data-i18n-key="nav.goals">목표</span>
             </div>
             <div class="nav-item" data-tab="todos-tab">
                 <span class="nav-icon icon icon-list"></span>
@@ -1980,11 +2493,32 @@ body{display:flex;justify-content:center;background:linear-gradient(#ffffff,#f8f
             </div>
             <div class="nav-item" data-tab="timer-tab">
                 <span class="nav-icon icon icon-timer"></span>
-                <span class="nav-label">타이머</span>
+                <span class="nav-label" data-i18n-key="nav.timer">타이머</span>
             </div>
             <div class="nav-item" data-tab="ideas-tab">
                 <span class="nav-icon icon icon-bulb"></span>
-                <span class="nav-label">아이디어</span>
+                <span class="nav-label" data-i18n-key="nav.ideas">아이디어</span>
+            </div>
+        </div>
+
+        <!-- Book recommendations modal -->
+        <div class="book-overlay" id="book-overlay">
+            <div class="book-modal">
+                <div class="book-header">
+                    <div class="book-title-group">
+                        <h3 id="book-modal-title" data-i18n-key="books.title">모르면 안 될 부자 추천책</h3>
+                    </div>
+                    <button class="close-btn" id="close-book-modal"><span class="icon icon-close"></span></button>
+                </div>
+                <p class="book-subtitle" id="book-modal-subtitle" data-i18n-key="books.subtitle">성공한 부자들이 추천하는 필독서입니다.</p>
+                <p class="book-disclaimer" id="book-modal-disclaimer" data-i18n-key="books.disclaimer">* 구매 시 개발자에게 소정의 수수료가 지급됩니다.</p>
+                <div class="book-tabs" role="tablist">
+                <button class="book-tab active" data-category="bio" role="tab" data-i18n-key="books.tabs.bio">자서전</button>
+                <button class="book-tab" data-category="mind" role="tab" data-i18n-key="books.tabs.mind">마인드</button>
+                <button class="book-tab" data-category="marketing" role="tab" data-i18n-key="books.tabs.marketing">마케팅</button>
+            </div>
+            <div class="book-list" id="book-list"></div>
+                <a class="book-extra-link" id="book-extra-link" href="https://class.subad.kr/?utm_source=billionaire_timer&placement=book_modal" target="_blank" rel="noopener" data-i18n-key="books.extraLink">*개발자 추가매출 1,148만원 강의 (자영업자 블로그 시스템)</a>
             </div>
         </div>
 
@@ -2000,51 +2534,38 @@ body{display:flex;justify-content:center;background:linear-gradient(#ffffff,#f8f
                 
                 <div class="setting-item">
                     <div class="setting-info">
-                        <div class="setting-label">손실 표시</div>
-                        <div class="setting-desc">집중하지 않을 때 기회비용 표시</div>
+                        <div class="setting-label" data-i18n-key="settings.showLossLabel">손실 표시</div>
+                        <div class="setting-desc" data-i18n-key="settings.showLossDesc">집중이 흐트러질 때 예상 손실을 보여줍니다.</div>
                     </div>
-                    <div class="toggle-switch active" data-setting="showLoss"></div>
+                    <div class="toggle-switch" data-setting="showLoss"></div>
                 </div>
-                
                 <div class="setting-item">
                     <div class="setting-info">
-                        <div class="setting-label">방해사이트 경고</div>
-                        <div class="setting-desc">다른 웹사이트 접속 시 경고</div>
+                        <div class="setting-label" data-i18n-key="settings.notificationsLabel">데스크톱 알림</div>
+                        <div class="setting-desc" data-i18n-key="settings.notificationsDesc">타이머 완료 시 알림을 받습니다.</div>
                     </div>
-                    <div class="toggle-switch active" data-setting="siteWarning"></div>
+                    <div class="toggle-switch" data-setting="notifications"></div>
                 </div>
-                
                 <div class="setting-item">
                     <div class="setting-info">
-                        <div class="setting-label">알림</div>
-                        <div class="setting-desc">30분 경과 및 시간 초과 알림</div>
+                        <div class="setting-label" data-i18n-key="settings.preAlertLabel">미리 알림</div>
+                        <div class="setting-desc" data-i18n-key="settings.preAlertDesc">종료 전 추가 알림 시간을 선택하세요.</div>
                     </div>
-                    <div class="toggle-switch active" data-setting="notifications"></div>
+                    <select id="pre-alert-select" class="setting-select">
+                        <option value="0" data-i18n-key="settings.preAlertOff">알림 없음</option>
+                        <option value="5" data-i18n-key="settings.preAlert5">5분 전</option>
+                        <option value="10" data-i18n-key="settings.preAlert10">10분 전</option>
+                        <option value="15" data-i18n-key="settings.preAlert15">15분 전</option>
+                    </select>
                 </div>
-                
                 <div class="setting-item">
                     <div class="setting-info">
-                        <div class="setting-label">사운드/진동</div>
-                        <div class="setting-desc">완료/실패 시 소리 및 진동</div>
+                        <div class="setting-label" data-i18n-key="settings.motivationBannerLabel">동기 배너</div>
+                        <div class="setting-desc" data-i18n-key="settings.motivationBannerDesc">추가 학습 배너를 표시합니다.</div>
                     </div>
-                    <div class="toggle-switch active" data-setting="sound"></div>
+                    <div class="toggle-switch" data-setting="motivationBanner"></div>
                 </div>
-                
-                <div class="setting-item">
-                    <div class="setting-info">
-                        <div class="setting-label">성장 동기 배너</div>
-                        <div class="setting-desc">추가 매출 강의 및 성장 콘텐츠</div>
-                    </div>
-                    <div class="toggle-switch active" data-setting="motivationBanner"></div>
-                </div>
-                
-                <div class="setting-item">
-                    <div class="setting-info">
-                        <div class="setting-label">자동 재배치</div>
-                        <div class="setting-desc">미완료 작업 내일 오전 10시 이동</div>
-                    </div>
-                    <div class="toggle-switch" data-setting="autoReschedule"></div>
-                </div>
+                <div class="powered-by">POWERED BY <a href="https://subad.kr?utm_source=billionaire_timer&placement=settings_footer" target="_blank">SUBAD.KR</a></div>
                 
                 <!-- 설정 메뉴 마지막 CTA -->
                 <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e9ecef;">
@@ -2111,20 +2632,22 @@ body{display:flex;justify-content:center;background:linear-gradient(#ffffff,#f8f
 
     <script>
         // 전역 변수
-        let appData = {
+        const defaultAppData = {
             goals: { currentRate: 0, targetRate: 0 },
             todos: [],
             ideas: [],
-            stats: { 
-                totalProfit: 0, 
-                totalLoss: 0, 
-                successDays: 0, 
+            stats: {
+                totalProfit: 0,
+                totalLoss: 0,
+                successDays: 0,
                 failDays: 0,
                 currentStreak: 0,
                 longestStreak: 0,
                 thisWeekTasks: 0,
                 totalTasks: 0,
-                lastActiveDate: null
+                lastActiveDate: null,
+                recentCompletions: [],
+                history: []
             },
             timer: {
                 isRunning: false,
@@ -2132,41 +2655,421 @@ body{display:flex;justify-content:center;background:linear-gradient(#ffffff,#f8f
                 timeLeft: 0,
                 totalTime: 0,
                 currentTask: null,
-                interval: null
+                interval: null,
+                startedAt: null,
+                preAlertFired: false
             },
             settings: {
                 showLoss: true,
-                siteWarning: true,
                 notifications: true,
-                sound: true,
                 motivationBanner: true,
-                autoReschedule: false,
-                focusEfficiency: 0.7
+                focusEfficiency: 0.7,
+                language: 'ko',
+                theme: 'light',
+                bookCategory: 'bio',
+                preAlertMinutes: 0
             }
         };
+
+const cloneDefaultData = () => JSON.parse(JSON.stringify(defaultAppData));
+        let appData = cloneDefaultData();
+
+        const BOOK_RECOMMENDATIONS = [
+            {
+                id: 'billionaire-secret',
+                category: 'bio',
+                titles: { ko: '억만장자 시크릿', en: 'The Billionaire Secret' },
+                author: { ko: '저자: 라파엘 배지아그', en: 'Author: Rafael Badziag' },
+                description: { ko: '20가지 억만장자 습관을 파헤친 글로벌 인터뷰.', en: 'Twenty billionaire habits shared through global interviews.' },
+                link: 'https://link.coupang.com/a/cR4Gou'
+            },
+            {
+                id: 'steve-jobs',
+                category: 'bio',
+                titles: { ko: '스티브 잡스', en: 'Steve Jobs' },
+                author: { ko: '저자: 월터 아이작슨', en: 'Author: Walter Isaacson' },
+                description: { ko: '혁신을 이끈 거장의 삶과 사고방식.', en: "The definitive portrait of Apple's visionary leader." },
+                link: 'https://link.coupang.com/a/cR4CcX'
+            },
+            {
+                id: 'elon-musk',
+                category: 'bio',
+                titles: { ko: '엘론 머스크', en: 'Elon Musk' },
+                author: { ko: '저자: 월터 아이작슨', en: 'Author: Walter Isaacson' },
+                description: { ko: '미래 산업을 재편한 기업가의 실제 이야기.', en: 'The relentless journey of an entrepreneur redefining industries.' },
+                link: 'https://link.coupang.com/a/cR4BWm'
+            },
+            {
+                id: 'atomic-habits',
+                category: 'mind',
+                titles: { ko: '아주 작은 습관의 힘', en: 'Atomic Habits' },
+                author: { ko: '저자: 제임스 클리어', en: 'Author: James Clear' },
+                description: { ko: '매일의 작은 변화가 만드는 폭발적 성장 전략.', en: 'Tiny changes that deliver remarkable results.' },
+                link: 'https://link.coupang.com/a/cR4Adb'
+            },
+            {
+                id: 'think-grow-rich',
+                category: 'mind',
+                titles: { ko: '생각하라 그리고 부자가 되어라', en: 'Think and Grow Rich' },
+                author: { ko: '저자: 나폴레온 힐', en: 'Author: Napoleon Hill' },
+                description: { ko: '부를 부르는 사고 프레임을 설계하는 고전.', en: 'The foundational mindset playbook for creating wealth.' },
+                link: 'https://link.coupang.com/a/cR4EEV'
+            },
+            {
+                id: 'reverse',
+                category: 'mind',
+                titles: { ko: '역행자', en: 'The Reverse Entrepreneur' },
+                author: { ko: '저자: 자청', en: 'Author: Jake Chung' },
+                description: { ko: '국내 자수성가가 들려주는 실행 중심 부의 전략.', en: 'Execution-first strategies from a Korean self-made entrepreneur.' },
+                link: 'https://link.coupang.com/a/cR4BmG'
+            },
+            {
+                id: 'marketing-architect',
+                category: 'marketing',
+                titles: { ko: '마케팅 설계자', en: 'Marketing Made Simple' },
+                author: { ko: '저자: 도널드 밀러', en: 'Author: Donald Miller' },
+                description: { ko: '고객 여정을 구조화하는 스토리텔링 프레임.', en: 'Story-driven frameworks for building customer journeys.' },
+                link: 'https://link.coupang.com/a/cR4zDp'
+            },
+            {
+                id: 'influence',
+                category: 'marketing',
+                titles: { ko: '설득의 심리학', en: 'Influence: The Psychology of Persuasion' },
+                author: { ko: '저자: 로버트 치알디니', en: 'Author: Robert B. Cialdini' },
+                description: { ko: '사람을 움직이는 6가지 설득 원리를 실전에 적용.', en: 'Six universal principles that move people to action.' },
+                link: 'https://link.coupang.com/a/cR4v8G'
+            },
+            {
+                id: 'this-is-marketing',
+                category: 'marketing',
+                titles: { ko: '마케팅이다', en: 'This Is Marketing' },
+                author: { ko: '저자: 세스 고딘', en: 'Author: Seth Godin' },
+                description: { ko: '작은 틈새를 공략하는 세스 고딘의 마케팅 철학.', en: "Seth Godin's philosophy for serving focused niches." },
+                link: 'https://link.coupang.com/a/cR4yLp'
+            }
+        ];
+
+        
+
+        function triggerConfetti() {
+            const container = document.createElement('div');
+            container.className = 'confetti-container';
+            const colors = ['#d4af37', '#f1c40f', '#ff7a18', '#20c997', '#4dabf7'];
+            for (let i = 0; i < 40; i++) {
+                const piece = document.createElement('span');
+                piece.className = 'confetti-piece';
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.animationDelay = (Math.random() * 0.5) + 's';
+                piece.style.transform = `translateY(-20vh) rotate(${Math.random() * 360}deg)`;
+                container.appendChild(piece);
+            }
+            document.body.appendChild(container);
+            setTimeout(() => container.remove(), 1500);
+        }
+const i18nStrings = {
+            ko: {
+                'document.title': '천억부자 타이머 - 파이널 프리미엄',
+                'header.title': '천억부자 타이머',
+                'goal.setupTitle': '목표 설정',
+                'goal.setupSubtitle': '성공을 위한 첫 걸음,<br>당신의 시급 목표를 설정하세요.',
+                'goal.currentLabel': '현재 시급',
+                'goal.targetLabel': '목표 시급',
+                'goal.dailyFocusTitle': '하루 목표 집중 시간',
+                'goal.dailyFocusSubtitle': '목표 달성을 위한 최소 시간 (집중율 70%)',
+                'goal.startJourney': '천억 여정 시작하기',
+                'goal.guideButton': '가이드',
+                'goal.guideTitle': '목표 설정 가이드',
+                'goal.guideStep1': '현재 시급은 최근 3개월 평균 실수익으로 입력해 주세요.',
+                'goal.guideStep2': '목표 시급은 3배 이내에서 도전하면 동기부여가 오래갑니다.',
+                'goal.guideStep3': '시급 차이를 기준으로 오늘 집중해야 할 시간을 계산해 드려요.',
+                'goal.guideClose': '확인했어요',
+                'language.ko': '한국어',
+                'language.en': 'English',
+                'banner.title': '추가 매출 1,148만원 성공 비법',
+                'banner.subtitle': '천억부자들의 실제 성장 전략과<br>검증된 수익화 노하우를 배워보세요',
+                'banner.cta': '수익과정 보기',
+                'books.title': '모르면 안 될 부자 추천책',
+                'books.subtitle': '성공한 부자들이 추천하는 필독서입니다.',
+                'books.disclaimer': '* 구매 시 개발자에게 소정의 수수료가 지급됩니다.',
+                'books.tabs.bio': '자서전',
+                'books.tabs.mind': '마인드',
+                'books.tabs.marketing': '마케팅',
+                'books.extraLink': '*개발자 추가매출 1,148만원 강의 (자영업자 블로그 시스템)',
+                'books.cta': '쿠팡에서 구매하기',
+                'settings.showLossLabel': '손실 표시',
+                'settings.showLossDesc': '집중하지 않을 때 예상 손실을 보여줍니다.',
+                'settings.notificationsLabel': '데스크톱 알림',
+                'settings.notificationsDesc': '타이머 완료 및 중단 알림을 받습니다.',
+                'settings.preAlertLabel': '미리 알림',
+                'settings.preAlertDesc': '종료 전 추가 알림 시간을 선택하세요.',
+                'settings.preAlertOff': '알림 없음',
+                'settings.preAlert5': '5분 전',
+                'settings.preAlert10': '10분 전',
+                'settings.preAlert15': '15분 전',
+                'settings.motivationBannerLabel': '동기 배너',
+                'settings.motivationBannerDesc': '추가 학습 강의와 성장 콘텐츠를 표시합니다.',
+                'nav.goals': '목표',
+                'nav.todos': '할 일',
+                'nav.timer': '타이머',
+                'nav.ideas': '아이디어'
+            },
+            en: {
+                'document.title': 'Billionaire Timer DODOLIST',
+                'header.title': 'Billionaire Timer DODOLIST',
+                'goal.setupTitle': 'Set Your Goal',
+                'goal.setupSubtitle': 'First step toward success,<br>Set the income target you want.',
+                'goal.currentLabel': 'Current hourly rate',
+                'goal.targetLabel': 'Target hourly rate',
+                'goal.dailyFocusTitle': 'Daily Focus Time',
+                'goal.dailyFocusSubtitle': 'Minimum effort for your target (70% focus)',
+                'goal.startJourney': 'Start the billionaire journey',
+                'goal.guideButton': 'Guide',
+                'goal.guideTitle': 'Goal Setting Guide',
+                'goal.guideStep1': 'Use your average hourly income from the last 3 months.',
+                'goal.guideStep2': 'Targets within 3x keep you motivated for longer.',
+                'goal.guideStep3': 'We calculate today\'s focus time from the gap between current and target.',
+                'goal.guideClose': 'Got it',
+                'language.ko': 'Korean',
+                'language.en': 'English',
+                'banner.title': 'Earned an extra 11.48M KRW in revenue',
+                'banner.subtitle': 'Learn verified scaling strategies<br>directly from top Korean builders.',
+                'banner.cta': 'See the class',
+                'books.title': 'Must-Read Books Recommended by the Wealthy',
+                'books.subtitle': 'Curated titles that top performers rely on.',
+                'books.disclaimer': '*Purchases may earn the developer a small commission.',
+                'books.tabs.bio': 'Biographies',
+                'books.tabs.mind': 'Mindset',
+                'books.tabs.marketing': 'Marketing',
+                'books.extraLink': '*Developer side revenue 11.48M KRW class (Self-employed blog system)',
+                'books.cta': 'Buy on Coupang',
+                'settings.showLossLabel': 'Show Opportunity Cost',
+                'settings.showLossDesc': 'Display the potential loss to keep focus high.',
+                'settings.notificationsLabel': 'Desktop Notifications',
+                'settings.notificationsDesc': 'Get alerted when a timer completes or pauses.',
+                'settings.preAlertLabel': 'Pre-alert',
+                'settings.preAlertDesc': 'Pick an extra reminder before the timer ends.',
+                'settings.preAlertOff': 'No alert',
+                'settings.preAlert5': '5 minutes before',
+                'settings.preAlert10': '10 minutes before',
+                'settings.preAlert15': '15 minutes before',
+                'settings.motivationBannerLabel': 'Motivation Banner',
+                'settings.motivationBannerDesc': 'Show the additional growth banner.',
+                'nav.goals': 'Goals',
+                'nav.todos': 'Tasks',
+                'nav.timer': 'Timer',
+                'nav.ideas': 'Ideas'
+            }
+        };
+
+
 
         let editingTodoId = null;
         let convertingIdeaId = null;
 
         // 앱 초기화
-        document.addEventListener('DOMContentLoaded', function() {
-            loadAppData();
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadAppData();
             setupEventListeners();
             initializeApp();
         });
 
         // 데이터 로드
-        function loadAppData() {
+        async function loadAppData() {
+            if (isChromeExtension()) {
+                return new Promise(resolve => {
+                    chrome.storage.local.get(['final_billionaire_app'], result => {
+                        if (result.final_billionaire_app) {
+                            mergeAppData(result.final_billionaire_app);
+                        }
+                        resolve();
+                    });
+                });
+            }
+
             const savedData = localStorage.getItem('final_billionaire_app');
             if (savedData) {
-                appData = { ...appData, ...JSON.parse(savedData) };
+                mergeAppData(JSON.parse(savedData));
             }
         }
 
         // 데이터 저장
         function saveAppData() {
-            localStorage.setItem('final_billionaire_app', JSON.stringify(appData));
+            if (isChromeExtension()) {
+                chrome.storage.local.set({ final_billionaire_app: appData });
+            } else {
+                localStorage.setItem('final_billionaire_app', JSON.stringify(appData));
+            }
         }
+
+        function mergeAppData(saved) {
+            const base = cloneDefaultData();
+            const merged = { ...base, ...(saved || {}) };
+            const savedGoals = saved && saved.goals ? saved.goals : {};
+            const savedStats = saved && saved.stats ? saved.stats : {};
+            const savedTimer = saved && saved.timer ? saved.timer : {};
+            const savedSettings = saved && saved.settings ? saved.settings : {};
+
+            merged.goals = { ...base.goals, ...savedGoals };
+            merged.todos = Array.isArray(saved && saved.todos) ? saved.todos : [];
+            merged.ideas = Array.isArray(saved && saved.ideas) ? saved.ideas : [];
+            merged.stats = { ...base.stats, ...savedStats };
+            if (!Array.isArray(merged.stats.recentCompletions)) {
+                merged.stats.recentCompletions = [];
+            }
+            if (!Array.isArray(merged.stats.history)) {
+                merged.stats.history = [];
+            }
+            merged.timer = { ...base.timer, ...savedTimer, interval: null };
+            merged.settings = { ...base.settings, ...savedSettings };
+            appData = merged;
+        }
+
+        function isChromeExtension() {
+            return typeof chrome !== 'undefined' && !!chrome.storage && !!chrome.runtime && !!chrome.runtime.id;
+        }
+
+        function getCurrentLanguage() {
+            return appData.settings.language || 'ko';
+        }
+
+        function setLanguage(lang) {
+            if (!lang || lang === getCurrentLanguage()) {
+                updateLanguageButtons();
+                return;
+            }
+            appData.settings.language = lang;
+            applyLanguage();
+            saveAppData();
+        }
+
+        function updateLanguageButtons() {
+            const current = getCurrentLanguage();
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === current);
+            });
+        }
+
+        function applyLanguage() {
+            const lang = getCurrentLanguage();
+            document.documentElement.lang = lang;
+            const dictionary = i18nStrings[lang] || {};
+            const fallback = i18nStrings.ko || {};
+            const title = dictionary['document.title'] || fallback['document.title'];
+            if (title) {
+                document.title = title;
+            }
+
+            document.querySelectorAll('[data-i18n-key]').forEach(node => {
+                const key = node.getAttribute('data-i18n-key');
+                const mode = node.getAttribute('data-i18n-mode') || 'text';
+                const value = dictionary[key] !== undefined ? dictionary[key] : fallback[key];
+                if (value !== undefined) {
+                    if (mode === 'html') {
+                        node.innerHTML = value;
+                    } else {
+                        node.textContent = value;
+                    }
+                }
+            });
+
+            updateLanguageButtons();
+            renderBookList(appData.settings.bookCategory || 'bio');
+        }
+
+        function applyTheme() {
+            const theme = appData.settings.theme === 'dark' ? 'dark' : 'light';
+            document.body.classList.toggle('theme-dark', theme === 'dark');
+            document.body.classList.toggle('theme-light', theme !== 'dark');
+            const toggle = document.getElementById('theme-toggle');
+            if (toggle) {
+                toggle.setAttribute('data-theme', theme);
+            }
+        }
+
+        function toggleTheme() {
+            appData.settings.theme = appData.settings.theme === 'dark' ? 'light' : 'dark';
+            applyTheme();
+            saveAppData();
+        }
+
+        function renderBookList(category) {
+            const list = document.getElementById('book-list');
+            if (!list) {
+                return;
+            }
+            const activeCategory = category || appData.settings.bookCategory || 'bio';
+            const lang = getCurrentLanguage();
+            const fallbackLang = lang === 'ko' ? 'en' : 'ko';
+            const books = BOOK_RECOMMENDATIONS.filter(book => book.category === activeCategory);
+            const ctaText = (i18nStrings[lang] && i18nStrings[lang]['books.cta']) || (i18nStrings[fallbackLang] && i18nStrings[fallbackLang]['books.cta']) || 'Buy';
+            list.innerHTML = books.map(book => {
+                const titles = book.titles || {};
+                const authors = book.author || {};
+                const title = titles[lang] || titles[fallbackLang] || titles.ko || titles.en || '';
+                const author = authors[lang] || authors[fallbackLang] || authors.ko || authors.en || '';
+                const description = book.description || '';
+                const link = book.link || '#';
+                const descriptionHtml = description ? `<p class="book-description">${description}</p>` : '';
+                return `
+                    <div class="book-card">
+                        <h4>${title}</h4>
+                        <p class="book-author">${author}</p>
+                        ${descriptionHtml}
+                        <a class="book-cta" href="${link}" target="_blank" rel="noopener">${ctaText}</a>
+                    </div>
+                `;
+            }).join('');
+            updateBookTabs(activeCategory);
+        }
+
+        function updateBookTabs(activeCategory) {
+            document.querySelectorAll('.book-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.category === activeCategory);
+            });
+        }
+
+        function handleBookTabClick(event) {
+            const category = event.currentTarget.dataset.category;
+            if (!category) {
+                return;
+            }
+            appData.settings.bookCategory = category;
+            renderBookList(category);
+            saveAppData();
+        }
+
+        function openBookModal() {
+            const overlay = document.getElementById('book-overlay');
+            if (!overlay) {
+                return;
+            }
+            overlay.classList.add('active');
+            renderBookList(appData.settings.bookCategory || 'bio');
+        }
+
+        function closeBookModal() {
+            const overlay = document.getElementById('book-overlay');
+            if (overlay) {
+                overlay.classList.remove('active');
+            }
+        }
+
+        function notifyExtension(title, message) {
+            if (!isChromeExtension()) {
+                return;
+            }
+            if (!appData.settings.notifications) {
+                return;
+            }
+            try {
+                chrome.runtime.sendMessage({ type: 'notify', title, body: message });
+            } catch (error) {
+                console.warn('Notification delivery failed', error);
+            }
+        }
+
+
 
         // 앱 초기화
         function initializeApp() {
@@ -2175,6 +3078,11 @@ body{display:flex;justify-content:center;background:linear-gradient(#ffffff,#f8f
             } else {
                 showGoalSetup();
             }
+            applyTheme();
+            applyLanguage();
+            renderBookList(appData.settings.bookCategory || 'bio');
+            updateLanguageButtons();
+            updateBookTabs(appData.settings.bookCategory || 'bio');
             updateAllDisplays();
         }
 
@@ -2270,6 +3178,58 @@ body{display:flex;justify-content:center;background:linear-gradient(#ffffff,#f8f
             document.getElementById('play-pause-btn').addEventListener('click', toggleTimer);
             document.getElementById('complete-btn').addEventListener('click', completeTimer);
             document.getElementById('give-up-btn').addEventListener('click', giveUpTimer);
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    setLanguage(this.dataset.lang);
+                });
+            });
+
+
+            // Book modal events
+
+            const bookShortcut = document.getElementById('book-shortcut');
+            if (bookShortcut) {
+                bookShortcut.addEventListener('click', openBookModal);
+            }
+
+            const bookOverlay = document.getElementById('book-overlay');
+            if (bookOverlay) {
+                bookOverlay.addEventListener('click', function(event) {
+                    if (event.target === bookOverlay) {
+                        closeBookModal();
+                    }
+                });
+            }
+
+            const closeBook = document.getElementById('close-book-modal');
+            if (closeBook) {
+                closeBook.addEventListener('click', closeBookModal);
+            }
+
+            document.querySelectorAll('.book-tab').forEach(tab => {
+                tab.addEventListener('click', handleBookTabClick);
+            });
+
+            // Goal guide events
+            const goalGuideBtn = document.getElementById('goal-guide-btn');
+            if (goalGuideBtn) {
+                goalGuideBtn.addEventListener('click', showGoalGuide);
+            }
+
+            const closeGoalGuide = document.getElementById('close-goal-guide');
+            if (closeGoalGuide) {
+                closeGoalGuide.addEventListener('click', hideGoalGuide);
+            }
+
+            // Pre-alert select
+            const preAlertSelect = document.getElementById('pre-alert-select');
+            if (preAlertSelect) {
+                preAlertSelect.addEventListener('change', function() {
+                    appData.settings.preAlertMinutes = parseInt(this.value);
+                    saveAppData();
+                });
+            }
         }
 
         // 월급/연봉 자동 환산
@@ -2721,14 +3681,22 @@ body{display:flex;justify-content:center;background:linear-gradient(#ffffff,#f8f
             const todoList = document.getElementById('todo-list');
             todoList.innerHTML = '';
 
+            // Show form immediately if no todos exist
+            if (appData.todos.length === 0) {
+                showTodoForm();
+            }
+
             appData.todos.forEach(todo => {
                 const todoItem = document.createElement('div');
                 todoItem.className = 'list-item';
                 const quickBox = todo.quick ? `<input type="checkbox" onchange="toggleTodoQuick(${todo.id}, this.checked)">` : '';
                 todoItem.innerHTML = `
                     <div class="item-content">
-                        <div class="item-title">${todo.title}</div>
-                        <div class="item-meta">${todo.timeMinutes}분 • ${todo.repeat === 'daily' ? '매일 반복' : '한번만'}${todo.value ? ` • 가치 ₩${todo.value.toLocaleString()}` : ''}</div>
+                        <input type="checkbox" class="completion-checkbox" ${todo.completed ? 'checked' : ''} onchange="toggleTodoCompletion(${todo.id})" title="완료 체크">
+                        <div class="item-text ${todo.completed ? 'completed' : ''}">
+                            <div class="item-title">${todo.title}</div>
+                            <div class="item-meta">${todo.timeMinutes}분 • ${todo.repeat === 'daily' ? '매일 반복' : '한번만'}${todo.value ? ` • 가치 ₩${todo.value.toLocaleString()}` : ''}</div>
+                        </div>
                     </div>
                     <div class="item-actions">
                         ${quickBox}
@@ -2767,6 +3735,67 @@ body{display:flex;justify-content:center;background:linear-gradient(#ffffff,#f8f
                 updateAllDisplays();
                 alert(`🎉 완료 체크! ₩${earnedAmount.toLocaleString()} 수익 반영`);
             }
+        }
+
+        // Completion toggle functions
+        function toggleTodoCompletion(id) {
+            const todo = appData.todos.find(t => t.id === id);
+            if (!todo) return;
+            
+            todo.completed = !todo.completed;
+            
+            if (todo.completed) {
+                showConfetti();
+                // 완료시 축하 메시지
+                const celebration = document.createElement('div');
+                celebration.className = 'celebration-popup';
+                celebration.innerHTML = '🎉 할일 완료! 축하합니다!';
+                celebration.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#d4af37;color:white;padding:20px 30px;border-radius:12px;font-weight:bold;z-index:10000;animation:fadeOut 2s forwards;';
+                document.body.appendChild(celebration);
+                setTimeout(() => celebration.remove(), 2000);
+            }
+            
+            saveAppData();
+            renderTodos();
+        }
+
+        function toggleIdeaCompletion(id) {
+            const idea = appData.ideas.find(i => i.id === id);
+            if (!idea) return;
+            
+            idea.completed = !idea.completed;
+            
+            if (idea.completed) {
+                showConfetti();
+                // 완료시 축하 메시지
+                const celebration = document.createElement('div');
+                celebration.className = 'celebration-popup';
+                celebration.innerHTML = '💡 아이디어 실현! 멋져요!';
+                celebration.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#d4af37;color:white;padding:20px 30px;border-radius:12px;font-weight:bold;z-index:10000;animation:fadeOut 2s forwards;';
+                document.body.appendChild(celebration);
+                setTimeout(() => celebration.remove(), 2000);
+            }
+            
+            saveAppData();
+            renderIdeas();
+        }
+
+        // Confetti animation
+        function showConfetti() {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            
+            for (let i = 0; i < 50; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.animationDelay = Math.random() * 2 + 's';
+                piece.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                confetti.appendChild(piece);
+            }
+            
+            document.body.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 4000);
         }
 
         function editTodo(id) {
@@ -2860,6 +3889,7 @@ body{display:flex;justify-content:center;background:linear-gradient(#ffffff,#f8f
             };
 
             appData.ideas.push(idea);
+            showConfetti();
             saveAppData();
             renderIdeas();
             hideIdeaForm();
@@ -2868,6 +3898,11 @@ body{display:flex;justify-content:center;background:linear-gradient(#ffffff,#f8f
         function renderIdeas() {
             const ideasList = document.getElementById('ideas-list');
             ideasList.innerHTML = '';
+
+            // Show form immediately if no ideas exist
+            if (appData.ideas.length === 0) {
+                showIdeaForm();
+            }
 
             appData.ideas.slice().reverse().forEach(idea => {
                 const ideaItem = document.createElement('div');
@@ -2878,8 +3913,11 @@ body{display:flex;justify-content:center;background:linear-gradient(#ffffff,#f8f
                 
                 ideaItem.innerHTML = `
                     <div class="item-content">
-                        <div class="item-title">${idea.title}</div>
-                        <div class="item-meta">${idea.content.substring(0, 50)}... • ${formattedDate}</div>
+                        <input type="checkbox" class="completion-checkbox" ${idea.completed ? 'checked' : ''} onchange="toggleIdeaCompletion(${idea.id})" title="완료 체크">
+                        <div class="item-text ${idea.completed ? 'completed' : ''}">
+                            <div class="item-title">${idea.title}</div>
+                            <div class="item-meta">${idea.content.substring(0, 50)}... • ${formattedDate}</div>
+                        </div>
                     </div>
                     <div class="item-actions">
                         <button class="action-btn convert" onclick="showConvertForm(${idea.id})" title="할일로 변환">
@@ -3179,7 +4217,17 @@ function completeTimer() {
                 appData.stats.totalTasks++;
                 updateStreakAndWeekly(true);
 
-                alert(`🎉 작업 완료!\n₩${earnedAmount.toLocaleString()}을 벌어들였습니다!`);
+                showConfetti();
+                
+                const completionMessage = `🎉 작업 완료!\n₩${earnedAmount.toLocaleString()}을 벌어들였습니다!`
+                alert(completionMessage);
+
+                const lang = getCurrentLanguage();
+                const notifyTitle = lang === 'en' ? 'Task Completed' : '작업 완료';
+                const notifyBody = lang === 'en'
+                    ? `Earned ₩${earnedAmount.toLocaleString()}. Keep pushing ahead!`
+                    : `₩${earnedAmount.toLocaleString()}를 벌었습니다! 계속 달려볼까요?`;
+                notifyExtension(notifyTitle, notifyBody);
 
                 // 최근 완료 목록 추가
                 appData.stats.recentCompletions.unshift({
@@ -3230,7 +4278,14 @@ function completeTimer() {
                     appData.stats.failDays++;
                     updateStreakAndWeekly(false);
                     
-                    alert(`😔 작업 포기...\n₩${lostAmount.toLocaleString()}의 기회비용이 발생했습니다.`);
+                    const giveUpMessage = `😔 작업 포기...\n₩${lostAmount.toLocaleString()}의 기회비용이 발생했습니다.`;
+                    alert(giveUpMessage);
+                    const lang = getCurrentLanguage();
+                    const notifyTitle = lang === 'en' ? 'Session Stopped' : '작업 중단';
+                    const notifyBody = lang === 'en'
+                        ? `You missed out on ₩${lostAmount.toLocaleString()}. Ready to restart?`
+                        : `₩${lostAmount.toLocaleString()}의 기회비용이 발생했어요. 다시 도전해볼까요?`;
+                    notifyExtension(notifyTitle, notifyBody);
                     saveAppData();
                 }
                 

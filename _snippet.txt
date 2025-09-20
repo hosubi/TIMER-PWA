@@ -1,0 +1,41 @@
+﻿const defaultAppData = {
+            goals: { currentRate: 0, targetRate: 0 },
+            todos: [],
+            ideas: [],
+            stats: {
+                totalProfit: 0,
+                totalLoss: 0,
+                successDays: 0,
+                failDays: 0,
+                currentStreak: 0,
+                longestStreak: 0,
+                thisWeekTasks: 0,
+                totalTasks: 0,
+                lastActiveDate: null,
+                recentCompletions: [],
+                history: []
+            },
+            timer: {
+                isRunning: false,
+                isPaused: false,
+                timeLeft: 0,
+                totalTime: 0,
+                currentTask: null,
+                interval: null,
+                startedAt: null
+            },
+            settings: {
+                showLoss: true,
+                siteWarning: true,
+                notifications: true,
+                sound: true,
+                motivationBanner: true,
+                autoReschedule: false,
+                focusEfficiency: 0.7,
+                language: 'ko',
+                theme: 'light',
+                bookCategory: 'autobiography'
+            }
+        };
+
+       

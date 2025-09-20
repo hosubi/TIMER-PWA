@@ -1,0 +1,100 @@
+            border-radius: 10px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #ffffff;
+            color: #666666;
+        }
+
+        .option-btn.selected {
+            background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+            color: white;
+            border-color: #d4af37;
+            box-shadow: 0 4px 15px rgba(212,175,55,0.3);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn.primary {
+            background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(212,175,55,0.3);
+        }
+
+        .btn.secondary {
+            background: #f8f9fa;
+            color: #666666;
+            border: 2px solid #e9ecef;
+        }
+
+        /* ?�이??목록 */
+        .item-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .list-item {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 18px;
+            margin-bottom: 15px;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .item-content {
+            flex: 1;
+        }
+
+        .item-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 6px;
+        }
+
+        .item-meta {
+            font-size: 13px;
+            color: #666666;
+            font-weight: 600;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            width: 35px;
+            height: 35px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            display: flex;
