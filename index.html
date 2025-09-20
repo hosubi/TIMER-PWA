@@ -1538,10 +1538,13 @@
     </style>
         <!-- 확장 팝업에서는 inline 스크립트가 차단될 수 있어 제거 -->
 
-  <meta name="theme-color" content="#111111">
-  <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="icon" href="/icons/icon-192.png" sizes="192x192">
-  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+<style>
+body{display:flex;justify-content:center;background:linear-gradient(#ffffff,#f8f8f8)}
+.app-container,.container,main{max-width:600px;width:100%;margin:0 auto}
+.header,header,.bottom-nav,footer{max-width:600px;margin:0 auto}
+@media (max-width:420px){.header,header,.container,.content,main{padding-left:12px !important;padding-right:12px !important}}
+</style>
+
 </head>
 <body>
     <div class="app-container">
@@ -3153,33 +3156,61 @@
             }
         }
 
-        function completeTimer() {
+        
+function completeTimer() {
             clearInterval(appData.timer.interval);
             appData.timer.isRunning = false;
             appData.timer.isPaused = false;
-            
+
             if (appData.timer.currentTask) {
-                const earnedAmount = Math.floor((appData.goals.currentRate / 60) * appData.timer.currentTask.timeMinutes);
-                
+                // 우선순위: (1) 작업의 가치 금액 -> (2) 시급 기반 계산
+                const customVal = parseInt(appData.timer.currentTask.value);
+                let earnedAmount;
+                if (!isNaN(customVal) && customVal > 0) {
+                    earnedAmount = customVal;
+                } else {
+                    const baseMinutes = appData.timer.currentTask.timeMinutes || 0;
+                    earnedAmount = Math.floor((appData.goals.currentRate / 60) * baseMinutes);
+                }
+
                 // 통계 업데이트
                 appData.stats.totalProfit += earnedAmount;
                 appData.stats.successDays++;
                 appData.stats.totalTasks++;
                 updateStreakAndWeekly(true);
-                
+
                 alert(`🎉 작업 완료!\n₩${earnedAmount.toLocaleString()}을 벌어들였습니다!`);
-                
+
+                // 최근 완료 목록 추가
+                appData.stats.recentCompletions.unshift({
+                    title: appData.timer.currentTask.title,
+                    minutes: appData.timer.currentTask.timeMinutes,
+                    value: earnedAmount,
+                    date: new Date().toISOString().split('T')[0]
+                });
+                appData.stats.recentCompletions = appData.stats.recentCompletions.slice(0, 10);
+
+                // 오늘 수입 업데이트
+                const today = new Date().toISOString().split('T')[0];
+                const dayStat = appData.stats.history.find(d => d.date === today) || { date: today, profit: 0, loss: 0, tasks: 0 };
+                dayStat.profit += earnedAmount;
+                dayStat.tasks += 1;
+                if (!appData.stats.history.some(d => d.date === today)) {
+                    appData.stats.history.push(dayStat);
+                }
+
                 // 한번만 실행하는 할 일은 삭제
                 if (appData.timer.currentTask.repeat === 'once') {
                     appData.todos = appData.todos.filter(todo => todo.id !== appData.timer.currentTask.id);
                     renderTodos();
                 }
-                
+
                 saveAppData();
             }
-            
+
             resetTimer();
         }
+
 
         function giveUpTimer() {
             if (!appData.timer.isRunning && !appData.timer.currentTask) {
@@ -3291,14 +3322,5 @@
             }
         }
     </script>
-
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch(console.error);
-  });
-}
-</script>
-
 </body>
 </html>
